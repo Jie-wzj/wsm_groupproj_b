@@ -1,0 +1,6 @@
+tornado==6.0.3
+python-levenshtein
+nltk
+tqdm
+zhon
+jieba
