@@ -1,0 +1,36 @@
+#h1 {
+text-align:center;
+
+}
+#search_form{
+text-align:center;
+
+}
+#search_form_input1{
+text-align:center;
+width:400px;
+height:35px;
+}
+#search_form_input2{
+text-align:center;
+width:400px;
+height:35px;
+}
+#search_form_input_button{
+text-align:center;
+height:35px;
+background:url("/static/images/img.png") no-repeat;
+background-size:35px 35px;
+cursor:pointer;
+border:none;
+}
+#doc{
+color:#505b62;
+}
+
+#doc_title{
+color: #666666;
+font-weight: 700;
+
+
+}

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Search Engine</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css">
+    <style type="text/css">
+        div#doc {width:800px}
+    .pagination-page-info {
+        padding: .6em;
+        padding-left: 0;
+        width: 40em;
+        margin: .5em;
+        margin-left: 0;
+        font-size: 12px;
+    }
+    .pagination-page-info b {
+        color: black;
+        background: #6aa6ed;
+        padding-left: 2px;
+        padding: .1em .25em;
+        font-size: 150%;
+    }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="header">
+            <div id="h1">
+            <img  src="/static/images/images.png">
+
+            <form name="search" action="/search/" id="search_form" method="POST">
+                <p>
+                    {% if key %}
+                        <input type="text" name="key_word" id="search_form_input2" value="{{key}}">
+                    {% else %}
+                        <input type="text" id="search_form_input1" name="key_word">
+                    {% endif %}
+                    <input type="submit"  id="search_form_input_button" value="        " >
+                </p>
+            </form>
+            </div>
+        </div>
+        <hr/>
+        {% block high_search%}
+        {% endblock %}
+        {% if error%}
+            {% for doc in docs%}
+            <div id="doc">
+                <ul id="navigation">
+                    <p id="doc_title">{{doc.title}}</p>
+                    <p id="doc_authors">{{doc.authors}}</p>
+                    <p id="doc_publish_time">{{doc.publish_time}}</p>
+                    <p id="doc_doi">{{doc.doi}}</p>
+                    <a href="{{ doc.url }}" target="_blank" id ="doc_url">{{doc.url}}</a>
+                    </p>
+                </ul>
+            </div>
+            <br/>
+            {% endfor %}
+        {% block next %}
+        <ul>
+            {% for i in page %}
+                <a href="/search/page/{{i}}/">{{i}}</a>&nbsp;
+            {% endfor %}
+        </ul>
+        {% endblock %}
+        {% else %}
+            <p>对不起，没有您搜索的网页！</p>
+        {% endif %}
+
+		<div id="footer">
+			<hr>
+            &copy;
+
+			<script type="text/javascript">
+			var today = new Date();
+			var year = today.getFullYear();
+			document.write(year)
+			</script>
+
+<!--			<a href="https://github.com/01joy/news-search-engine" target="_blank">https://github.com/01joy/news-search-engine</a>-->
+        </div>
+
+    </div>
+</body>
+</html>
