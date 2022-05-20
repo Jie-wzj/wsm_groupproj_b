@@ -1,0 +1,8 @@
+tornado==6.0.3
+python-levenshtein
+nltk
+tqdm~=4.64.0
+zhon
+jieba~=0.42.1
+
+flask~=2.0.3
