@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
 
-
 from flask import Flask, render_template, request
 
-import sqlite3
-import configparser
-import time
-import boolean_search
-import pandas as pd
+# import sqlite3
+# import configparser
+# import time
+# import boolean_search
+# import pandas as pd
 
 import jieba
+
+from paper_data import PaperData, SortArg
+from utils import todoc
 
 app = Flask(__name__)
 
@@ -20,9 +22,9 @@ global keys
 
 @app.route('/')
 def main():
-    global df
-    df = pd.read_csv('./data/metadata.csv')
-    print('load complete')
+    # global md
+    # md = pd.read_csv('./data/metadata.csv')
+    # print('load complete')
     return render_template('search.html', error=True)
 
 
@@ -36,13 +38,39 @@ def search():
     print(keys)
     if keys not in ['']:
         # print(time.clock())
-        docs = find(keys)
+        # docs = find(keys)
+        # res_pd = mdata.search(keys)
+        # print(res_pd.score)
+        docs = todoc(mdata.search(keys))
         # print(time.clock())
         return render_template('high_search.html', checked=checked, key=keys, docs=docs, error=True)
     else:
         return render_template('search.html', error=False)
 
 
+@app.route('/search/resort/', methods=['POST'])
+def re_sort():
+    global keys
+    global checked
+    checked = ['checked="true"', '', '']
+
+    order = request.form['order']
+
+    ascending = [False, False, False]
+    if order == '0':
+        arg = SortArg([0, 1, 2], ascending)
+    elif order == '1':
+        arg = SortArg([2, 1, -1], ascending)
+    elif order == '2':
+        arg = SortArg([2, 1, 0], ascending)
+    else:
+        arg = SortArg(mode=1)
+
+    docs = todoc(mdata.sort(arg))
+
+    return render_template('high_search.html', checked=checked, key=keys, docs=docs, error=True)
+
+'''
 # 将需要的数据以字典形式打包传递给search函数
 def find(search_keys, extra=False):
     global db_path
@@ -58,7 +86,7 @@ def find(search_keys, extra=False):
     print(doc_list)
     for i in range(len(doc_list)):
         doc_index = int(doc_list[i])
-        tmp = df.iloc[doc_index]
+        tmp = mdata.md.iloc[doc_index]
         tmp = tmp.to_dict()
         docs.append(tmp)
 
@@ -83,7 +111,14 @@ def get_k_nearest(db_path, search_keys, k=50):
     conn.close()
     return docs[0:k]  # max = k
 
+# '''
 
 if __name__ == '__main__':
+    # global df
+    # df = pd.read_csv('./data/metadata.csv')
+    # print('load complete')
+
+    mdata = PaperData()
+
     jieba.initialize()  # 手动初始化（可选）
     app.run()

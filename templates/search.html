@@ -47,12 +47,10 @@
             {% for doc in docs%}
             <div id="doc">
                 <ul id="navigation">
-                    <p id="doc_title">{{doc.title}}</p>
+                    <a target="_blank" href="{{ doc.url }}" id="doc_title">{{doc.title}}</a>
                     <p id="doc_authors">{{doc.authors}}</p>
-                    <p id="doc_publish_time">{{doc.publish_time}}</p>
-                    <p id="doc_doi">{{doc.doi}}</p>
-                    <a href="{{ doc.url }}" target="_blank" id ="doc_url">{{doc.url}}</a>
-                    </p>
+                    <p id="doc_cord_uid">cord_uid:{{doc.cord_uid}}</p>
+                    <p id="doc_abstract">{{doc.abstract}}</p>
                 </ul>
             </div>
             <br/>
